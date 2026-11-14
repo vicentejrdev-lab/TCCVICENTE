@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Tests\Feature\Database\CoreOneSprint22PaymentClosureTest" file="tests/Feature/Database/CoreOneSprint22PaymentClosureTest.php" tests="1" assertions="4" errors="0" failures="0" skipped="0" time="1.950979">
+    <testcase name="test_dual_approval_requires_another_master_to_close" file="tests/Feature/Database/CoreOneSprint22PaymentClosureTest.php" line="388" class="Tests\Feature\Database\CoreOneSprint22PaymentClosureTest" classname="Tests.Feature.Database.CoreOneSprint22PaymentClosureTest" assertions="4" time="1.950979"/>
+  </testsuite>
+</testsuites>
