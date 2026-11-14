@@ -2,7 +2,7 @@
 
 Este repositório apresenta um recorte acadêmico do Core One, sistema que evoluiu do MVP Gestão 360 para uma aplicação corporativa desenvolvida em PHP/Laravel com MySQL.
 
-O material foi preparado para a subseção **4.4 — Implementação e verificação** do TCC II de Engenharia de Software. O objetivo é demonstrar, por meio de código e testes reais, como o fechamento das premiações controla concorrência, valida o estado do lote, registra a aprovação e aplica a confirmação dupla.
+O material foi preparado para a subseção **4.3 — Implementação e verificação** do TCC II de Engenharia de Software. O objetivo é demonstrar, por meio de código e testes reais, como o fechamento das premiações controla concorrência, valida o estado do lote, registra a aprovação e aplica a confirmação dupla.
 
 ## Conteúdo
 
