@@ -1,4 +1,4 @@
-# 4.4 — Implementação e verificação
+# 4.3 — Implementação e verificação
 
 O fechamento das premiações é executado pelo método `closeLot`, da classe `PaymentClosureService`. A operação ocorre dentro de uma transação e relê o lote com bloqueio pessimista. Esse procedimento impede que duas solicitações concorrentes alterem simultaneamente o mesmo fechamento. Antes de gravar o resultado, o serviço verifica a janela de fechamento, a situação do lote, a independência do aprovador, a atualidade dos cálculos e a integridade dos itens.
 
