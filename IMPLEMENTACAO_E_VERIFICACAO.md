@@ -1,24 +1,29 @@
 # 4.3 — Implementação e verificação
 
-O fechamento das premiações é executado pelo método `closeLot`, da classe `PaymentClosureService`. A operação ocorre dentro de uma transação e relê o lote com bloqueio pessimista. Esse procedimento impede que duas solicitações concorrentes alterem simultaneamente o mesmo fechamento. Antes de gravar o resultado, o serviço verifica a janela de fechamento, a situação do lote, a independência do aprovador, a atualidade dos cálculos e a integridade dos itens.
+O demonstrador acadêmico concentra a regra de fechamento em `demo-executavel/app/Services/PaymentClosureService.php`. O serviço recebe o lote, o usuário Master responsável e a justificativa informada na interface. A operação é executada dentro de uma transação e relê o lote com `lockForUpdate`, reduzindo o risco de alterações concorrentes durante a gravação.
 
-Quando as verificações são atendidas, os itens em preparação recebem o estado `closed`. O lote registra o usuário responsável pela aprovação, a data, a justificativa, o checksum da aprovação e o incremento da versão de bloqueio. Na continuidade do método, a competência também é fechada e são produzidos registros no histórico de eventos e no livro-razão financeiro.
+Antes do fechamento, o serviço verifica a situação do lote, a existência dos itens e a consistência dos valores. Os totais são recalculados no servidor a partir dos 20 itens agregados. Em seguida, os itens e o lote passam para a situação fechada, a versão é incrementada e são armazenados o responsável, a data, a justificativa e um checksum determinístico da composição financeira.
 
-Os recursos `DB::transaction`, Eloquent e `lockForUpdate` são fornecidos pelo Laravel. Já os estados financeiros, a confirmação dupla, os checksums, a separação entre preparação e aprovação e os eventos de auditoria constituem regras específicas do Core One.
+O fechamento também cria um evento de auditoria com o estado anterior e o estado posterior. Quando todos os lotes da competência estão fechados, a competência recebe a mesma situação. Uma nova tentativa sobre o mesmo lote é rejeitada sem alterar valores, versão ou histórico.
 
-## Confirmação dupla
+`DB::transaction`, Eloquent e `lockForUpdate` são recursos do Laravel. A composição do lote, suas situações, o checksum, a preservação dos valores e o registro de auditoria representam as regras implementadas no demonstrador do Core One.
 
-A classe `FinancialApprovalPolicyService` consulta a configuração `financial.dual_approval`. Quando a opção está habilitada — ou quando a configuração ainda não existe, pois o padrão é ativo — o método `assertIndependentActor` impede que o responsável pela preparação também finalize o lote. Nesse caso, outra conta com as permissões exigidas deve realizar o fechamento.
+## Cenário fictício
 
-## Verificação por testes
+`demo-executavel/database/seeders/DemoScenarioSeeder.php` cria sempre o mesmo conjunto de dados: 20 consultores, 170 produções, 300 associados, 45 boletos pendentes, uma competência aberta, um lote aberto e 20 itens financeiros. O banco não contém dados empresariais, credenciais de produção ou integrações externas.
 
-Foram selecionados dois testes da classe `CoreOneSprint22PaymentClosureTest`:
+## Verificação automatizada
 
-1. `test_closure_payment_submission_and_bank_confirmation_are_three_separate_steps`: verifica que fechar o lote, enviá-lo para pagamento e registrar a confirmação bancária são operações diferentes. O teste também confirma que não é possível registrar o pagamento bancário antes do envio.
-2. `test_dual_approval_requires_another_master_to_close`: verifica que o próprio preparador é bloqueado quando a confirmação dupla está ativa e que uma segunda conta Master consegue concluir o fechamento, preservando os identificadores de quem preparou e de quem aprovou.
+A suíte em `demo-executavel/tests/Feature` verifica:
 
-Os dois testes foram executados em ambiente isolado com SQLite em memória. O primeiro concluiu 14 asserções e o segundo, 4 asserções, sem erros ou falhas. Os XMLs sanitizados estão em `testes/resultados`.
+- autenticação e proteção das telas internas;
+- volumes determinísticos do cenário;
+- exibição dos indicadores no painel;
+- fechamento do lote pelo usuário Master;
+- preservação da soma dos itens;
+- geração de checksum e evento de auditoria;
+- fechamento da competência;
+- rejeição de uma segunda tentativa de fechamento;
+- restauração do cenário fictício pelo comando `demo:reset`.
 
-## Observação de rastreabilidade
-
-No repositório operacional analisado, `PaymentClosureService.php` e o arquivo de teste ainda estavam fora do histórico Git. Por essa razão, este repositório acadêmico registra uma cópia verificável dos recortes e seus hashes de origem, mas não afirma que esses arquivos pertenciam ao commit operacional indicado em `PROVENIENCIA.md`.
+Os testes utilizam SQLite em memória e não acessam produção, serviços externos ou bancos persistentes.

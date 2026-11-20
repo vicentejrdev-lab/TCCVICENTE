@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites>
-  <testsuite name="Tests\Feature\Database\CoreOneSprint22PaymentClosureTest" file="tests/Feature/Database/CoreOneSprint22PaymentClosureTest.php" tests="1" assertions="14" errors="0" failures="0" skipped="0" time="2.946186">
-    <testcase name="test_closure_payment_submission_and_bank_confirmation_are_three_separate_steps" file="tests/Feature/Database/CoreOneSprint22PaymentClosureTest.php" line="261" class="Tests\Feature\Database\CoreOneSprint22PaymentClosureTest" classname="Tests.Feature.Database.CoreOneSprint22PaymentClosureTest" assertions="14" time="2.946186"/>
-  </testsuite>
-</testsuites>

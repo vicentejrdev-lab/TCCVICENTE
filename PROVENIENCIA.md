@@ -1,46 +1,36 @@
-# Proveniência das evidências
+# Proveniência e limites da demonstração
 
-## Origem analisada
+## Origem acadêmica
 
-- Data da análise e dos testes: **14/11/2026**;
-- branch local: `codex/coreone-pre-finance-governance`;
-- HEAD do repositório operacional: `590df22c187b5d45ca9838c7c4dd5e11a913404e`;
-- PHP usado nos testes: `8.3.31`;
-- banco de teste: SQLite em memória;
+- data de preparação: **20/11/2026**;
+- linguagem: PHP 8.3;
+- framework: Laravel 13;
+- banco padrão do demonstrador: SQLite;
+- banco suportado por configuração: MySQL;
 - produção acessada: não;
-- migrations em banco persistente: não.
+- dados empresariais utilizados: não.
 
-## Repositório acadêmico público
+O Core One empresarial serviu como referência funcional para o TCC. Seu repositório, banco de dados, credenciais, regras confidenciais e integrações não foram publicados.
 
-- URL confirmada: `https://github.com/vicentejrdev-lab/TCCVICENTE`;
-- visibilidade verificada: pública;
-- branch publicada: `main`;
-- conteúdo publicado: somente o recorte acadêmico sanitizado descrito neste repositório.
+## Natureza do código público
 
-O repositório operacional completo do Core One não foi publicado.
+O projeto em `demo-executavel/` foi construído como uma implementação acadêmica autônoma. Ele reproduz o fluxo observável de navegação, consulta e fechamento sem afirmar que corresponde ao código operacional completo da empresa.
 
-## Situação Git dos arquivos na origem
+Os nomes, códigos, documentos, valores, associados, consultores, produções e boletos são fictícios e gerados deterministicamente. O repositório não inclui `.env`, bancos prontos, dumps, logs, uploads, tokens, senhas de ambientes hospedados ou registros de pessoas reais.
 
-| Arquivo | Situação durante a análise |
+## Rastreabilidade
+
+| Evidência | Localização pública |
 |---|---|
-| `app/Services/PaymentClosureService.php` | não rastreado |
-| `app/Services/FinancialApprovalPolicyService.php` | rastreado e sem alteração local |
-| `tests/Feature/Database/CoreOneSprint22PaymentClosureTest.php` | não rastreado |
+| Regra de fechamento | `demo-executavel/app/Services/PaymentClosureService.php` |
+| Estrutura do banco | `demo-executavel/database/migrations/` |
+| Cenário fictício | `demo-executavel/database/seeders/DemoScenarioSeeder.php` |
+| Testes automatizados | `demo-executavel/tests/Feature/` |
+| Instalação e uso | `demo-executavel/README.md` |
+| Execução contínua | `.github/workflows/demo-tests.yml` |
 
-## Hashes SHA-256 da origem
+## Limites da verificação
 
-| Arquivo | SHA-256 |
-|---|---|
-| `PaymentClosureService.php` | `11D4B2F34E3E22CBE8CD65CA4E3B73072470C80D833564D01814CE1AD3E219A5` |
-| `FinancialApprovalPolicyService.php` | `8793E7DF299570EE9A14223D5A10CC7769C5716E0E11B6F11C326009CF842770` |
-| `CoreOneSprint22PaymentClosureTest.php` | `274605F74395A92E765985C424318AA81D4B4A5BAF5E452BA23F7CFA25FBB142` |
+O SQLite permite reproduzir as transições de estado, a persistência, os totais e a auditoria com instalação simples. A validação de características específicas de concorrência do MySQL exige um ambiente próprio e não é afirmada por este demonstrador.
 
-## Recortes publicados
-
-- `PaymentClosureService::closeLot`: linhas 268–323 da origem;
-- `FinancialApprovalPolicyService::requiresIndependentApproval`: linhas 19–30;
-- `PaymentClosureService::assertIndependentActor`: linhas 1003–1008;
-- teste das três etapas financeiras: linhas 261–295;
-- teste da confirmação dupla: linhas 388–406.
-
-Os XMLs de resultado tiveram somente os caminhos absolutos locais substituídos pelo caminho relativo do arquivo de teste. Nomes dos testes, quantidade de asserções, duração, erros e falhas foram preservados.
+O usuário e a senha descritos no README interno destinam-se exclusivamente à execução local. Um ambiente hospedado deve utilizar credenciais diferentes e compartilhadas fora do repositório.
